@@ -1,0 +1,14 @@
+node_modules
+src/main/resources/lib/externalLibs/*
+src/main/resources/assets/css
+src/main/resources/assets/js
+src/main/resources/assets/images
+src/main/resources/assets/libs
+src/main/resources/assets/sass
+gradle/*
+.settings/*
+build/*
+bin/*
+.sonarlint
+../docker/*
+../.vscode/*

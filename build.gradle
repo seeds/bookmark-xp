@@ -1,0 +1,39 @@
+plugins {
+    id "java"
+    id 'com.enonic.xp.app' version '3.4.0'
+}
+
+app {
+    name = "${appName}"
+    displayName = "${appDisplayName}"
+    vendorName = "${vendorName}"
+    vendorUrl = "${vendorUrl}"
+    systemVersion = "${xpVersion}"
+    keepArchiveFileName = true
+}
+
+dependencies {
+    implementation "com.enonic.xp:core-api:${xpVersion}"
+    implementation "com.enonic.xp:portal-api:${xpVersion}"
+    include "com.enonic.xp:lib-content:${xpVersion}"
+    include "com.enonic.xp:lib-portal:${xpVersion}"
+    include "com.enonic.xp:lib-auth:${xpVersion}"
+    include "com.enonic.xp:lib-context:${xpVersion}"
+    include "com.enonic.xp:lib-i18n:${xpVersion}"
+    include "com.enonic.xp:lib-repo:${xpVersion}"
+    include "com.enonic.xp:lib-node:${xpVersion}"
+    include "com.enonic.xp:lib-io:${xpVersion}"
+    include "com.enonic.lib:lib-thymeleaf:2.1.0"
+    include "com.enonic.lib:lib-text-encoding:2.1.1"
+    include "com.enonic.lib:lib-license:3.1.0"
+}
+
+tasks.register('dev', Exec) {
+    commandLine './gradlew', 'deploy', '-t'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    xp.enonicRepo()
+}

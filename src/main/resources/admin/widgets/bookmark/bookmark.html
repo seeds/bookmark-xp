@@ -1,0 +1,40 @@
+<widget id="app-bookmark" th:data-widget-url="${widgetURL}">
+  <link rel="stylesheet" type="text/css" th:href="${portal.assetUrl({'_path=/css/styles.min.css'})}" />
+  <section th:if="${hasLicense}" id="bookmark__context-panel" class="bookmark__context-panel boxShadow" th:data-bookmark-service-url="${bookmarkServiceURL}" th:data-content-id="${content._id}">
+    <div class="content-info-wrapper">
+      <img th:src="${content.icon}" width="32" height="32" alt="">
+      <div class="content-info">
+        <strong th:text="${content.displayName}">Content name</strong>
+        <p th:text="${content._path}">/site/content/path</p>
+      </div>
+
+      <button data-id="set-priority-button" class="priority-button" th:classappend="${isContentPriority} ? 'selected' : ''" th:style="${!isContentFavorite ? 'display:none' : 'display:block'}"></button>
+      <div
+        class="priority-tooltip"
+        th:data-add-priority-text="${strings.addPriorityText}"
+        th:data-remove-priority-text="${strings.removePriorityText}"
+        th:text="${isContentPriority ? strings.removePriorityText : strings.addPriorityText}"
+      >
+        Mark this content as Priority
+      </div>
+
+    </div>
+
+    <!-- Favorite/Unfavorite buttons -->
+    <button data-id="favorite-content-button" th:style="${isContentFavorite ? 'display:none' : 'display:block'}" th:text="${strings.bookmarkContentText}">Bookmark this content</button>
+    <button class="danger" data-id="unfavorite-content-button" th:style="${isContentFavorite ? 'display:block' : 'display:none'}" th:text="${strings.removeBookmarkText}">Remove bookmark</button>
+  </section>
+
+  <section id="bookmark__context-panel" th:unless="${hasLicense}" class="bookmark__context-panel boxShadow">
+    <div class="bookmark_license">
+      <p th:text="${strings.licenseTitle}">The tool requires a valid license from Seeds. Please contact your administrator.</p>
+      <div class="upload-file" id="bookmark_upload_input">
+        <span class="loader"></span>
+        <label th:text="${strings.licenseUpload}">Upload license</label>
+        <input th:data-license-service-url="${licenseServiceURL}" type="file"></input>
+      </div>
+      <p class="error-message" th:text="${strings.licenseIsInvalid}">The license file selected is invalid</p>
+    </div>
+  </section>
+  <script th:src="${portal.assetUrl({'_path=/js/bookmark.js'})}"></script>
+</widget>

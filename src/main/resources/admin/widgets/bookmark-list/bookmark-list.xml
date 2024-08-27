@@ -1,0 +1,10 @@
+<widget>
+  <display-name i18n="bookmark.widget.top_menu.display_name">Bookmark list</display-name>
+  <description i18n="bookmark.widget.top_menu.description">All bookmarked contents from the content user</description>
+  <interfaces>
+    <interface>contentstudio.menuitem</interface>
+  </interfaces>
+  <config>
+    <property name="context" value="project"/>
+  </config>
+</widget>

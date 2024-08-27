@@ -1,0 +1,10 @@
+<widget>
+  <display-name i18n="bookmark.widget.context_panel.display_name">Bookmark</display-name>
+  <description i18n="bookmark.widget.context_panel.description">App that allows you to bookmark your favorite contents</description>
+  <interfaces>
+    <interface>contentstudio.contextpanel</interface>
+  </interfaces>
+  <allow>
+    <principal>role:system.admin</principal>
+  </allow>
+</widget>

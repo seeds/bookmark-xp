@@ -13,21 +13,22 @@
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.3.1",
-    "browser-sync": "2.24.7",
+    "browser-sync": "^3.0.2",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "gulp": "^4.0.2",
+    "gulp": "^5.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-jsvalidate": "^5.0.0",
-    "gulp-minify": "^3.1.0",
+    "gulp-minify": "^3.0.0",
     "gulp-npm-dist": "^1.0.2",
-    "gulp-sass": "^4.0.1",
-    "gulp-sourcemaps": "^2.6.5"
+    "gulp-sass": "^5.1.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "sass": "^1.78.0"
   },
   "dependencies": {
     "bootstrap": "^5.3",

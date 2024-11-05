@@ -6,7 +6,8 @@ const babel = require('gulp-babel')
 const npmDist = require('gulp-npm-dist')
 const sourcemaps = require('gulp-sourcemaps')
 const jsValidate = require('gulp-jsvalidate')
-const minify = require('gulp-minify')
+const terser = require('gulp-terser')
+const rename = require('gulp-rename')
 
 function serve () {
   browserSync.init({
@@ -32,8 +33,9 @@ function css () {
       .pipe(sourcemaps.init())
       .pipe(sass().on('error', sass.logError))
       .pipe(sass({ outputStyle: 'compressed' }))
+      .pipe(terser())
+      .pipe(rename({ extname: '.min.js' }))
       .pipe(sourcemaps.write('.'))
-      .pipe(gulp.dest('./src/main/resources/assets/css'))
       .pipe(browserSync.stream())
   )
 }

@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "gulp": "gulp start",
+    "gulp:default": "gulp",
     "lint": "eslint 'src/**/*.js' --ext .js --ignore-path .eslintignore . --fix"
   },
   "author": "Seeds",
@@ -24,10 +25,11 @@
     "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-jsvalidate": "^5.0.0",
-    "gulp-minify": "^3.0.0",
     "gulp-npm-dist": "^1.0.2",
+    "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.1.0",
     "gulp-sourcemaps": "^2.6.5",
+    "gulp-terser": "^2.1.0",
     "sass": "^1.78.0"
   },
   "dependencies": {

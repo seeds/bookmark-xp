@@ -8,9 +8,7 @@ The Bookmark app makes it easy for editors to bookmark specific content objects 
 ```bash
 git clone https://github.com/seeds/bookmark-xp.git
 cd bookmark-xp
-npm install
-npm run gulp
-./gradlew clean build
+./gradlew build
 ```
 
 ### Installation

@@ -37,3 +37,16 @@ repositories {
     mavenCentral()
     xp.enonicRepo()
 }
+
+tasks.register("npmInstall", Exec) {
+    commandLine "sh", "-c", "npm install"
+}
+
+tasks.register("npmRunGulp", Exec) {
+    commandLine "sh", "-c", "npm run gulp:default"
+}
+
+// Make the build task depend on these tasks
+tasks.named("build") {
+    dependsOn "npmInstall", "npmRunGulp"
+}

@@ -33,9 +33,8 @@ function css () {
       .pipe(sourcemaps.init())
       .pipe(sass().on('error', sass.logError))
       .pipe(sass({ outputStyle: 'compressed' }))
-      .pipe(terser())
-      .pipe(rename({ extname: '.min.js' }))
       .pipe(sourcemaps.write('.'))
+      .pipe(gulp.dest('./src/main/resources/assets/css'))
       .pipe(browserSync.stream())
   )
 }
@@ -55,8 +54,9 @@ function internalJS () {
     .pipe(jsValidate())
     .pipe(sourcemaps.init())
     .pipe(babel({ presets: ['@babel/env'] }))
+    .pipe(terser())
+    .pipe(rename({ extname: '.min.js' }))
     .pipe(sourcemaps.write('.'))
-    .pipe(minify({ ext: { min: '.min.js' } }))
     .pipe(gulp.dest('src/main/resources/assets/js/'))
 }
 

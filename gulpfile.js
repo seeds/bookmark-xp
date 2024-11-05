@@ -73,6 +73,6 @@ function externalJS () {
 
 gulp.task('js', gulp.series(internalJS, externalJS))
 
-gulp.task('default', gulp.series(css, 'js', libs))
+gulp.task('default', gulp.series(css, internalJS, libs))
 
-gulp.task('start', gulp.series(css, 'js', libs, serve))
+gulp.task('start', gulp.series(css, internalJS, libs, serve))

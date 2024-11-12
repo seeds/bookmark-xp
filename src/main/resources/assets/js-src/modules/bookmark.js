@@ -546,11 +546,14 @@ function disableHeaderButtons () {
   const deprioritizeSelectedButton = document.querySelector('[data-id="deprioritizeSelected"]')
   const prioritizeSelectedButton = document.querySelector('[data-id="prioritizeSelected"]')
 
-  document.getElementById('checkAll').classList.remove('checked')
+  const checkAllCheckboxElement = document.getElementById('checkAll')
+  if (checkAllCheckboxElement) {
+    checkAllCheckboxElement.classList.remove('checked')
 
-  toggleDisableElement({ element: removeSelectionButton, disable: true })
-  toggleDisableElement({ element: deprioritizeSelectedButton, disable: true })
-  toggleDisableElement({ element: prioritizeSelectedButton, disable: true })
+    toggleDisableElement({ element: removeSelectionButton, disable: true })
+    toggleDisableElement({ element: deprioritizeSelectedButton, disable: true })
+    toggleDisableElement({ element: prioritizeSelectedButton, disable: true })
+  }
 }
 
 main()

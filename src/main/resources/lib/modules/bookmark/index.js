@@ -82,7 +82,7 @@ function favoriteContent (params) {
       editor: function (c) {
         const currentFavoriteContents = libs.objects.forceArray(c.data.favorites || [])
 
-        if (currentFavoriteContents.some(favoriteContent => favoriteContent.id === params.contentId)) {
+        if (currentFavoriteContents.some(favoriteContent => favoriteContent.id === params.contentId && favoriteContent.repository === params.repositoryId)) {
           log.info(`Content ${params.contentId} is already bookmarked to user ${loggedInUserInfo.key}`)
           return
         }
@@ -174,7 +174,7 @@ function getFavoritesFromLoggedInUser (params) {
 
     const userNode = repo.get(result.hits[0].id)
     const favorites = libs.objects.forceArray(userNode.data.favorites || [])
-    const favoriteContentIds = favorites.map(favorite => `'${favorite.id}'`).toString()
+    const favoriteContentIds = favorites.filter(favorite => favorite.repository === params.repositoryId).map(favorite => `'${favorite.id}'`).toString()
 
     if (!favoriteContentIds) return
 
@@ -202,7 +202,7 @@ function getFavoritesFromLoggedInUser (params) {
         displayName: item.displayName,
         hasChildren: item.hasChildren,
         link: `${params.editURL}/${item._id}`,
-        isPriority: favorites.some(favorite => favorite.id === item._id && favorite.priority)
+        isPriority: favorites.some(favorite => favorite.id === item._id && favorite.priority && favorite.repository === params.repositoryId)
       }
     }).sort((a, b) => Number(b.isPriority || false) - Number(a.isPriority || false))
   } catch (error) {
@@ -245,6 +245,7 @@ function getRepoConnection (repoId = libs.constants.default.repository) {
  * Check if a content is already bookmarked
  * @param {Object} params
  * @param {String} params.contentId
+ * @param {String} params.repository
  * @returns {Boolean}
  */
 function isContentFavorite (params) {
@@ -257,7 +258,7 @@ function isContentFavorite (params) {
 
     if (!userNode) return
 
-    return libs.objects.forceArray(userNode.data.favorites).some(favorite => favorite.id === params.contentId)
+    return libs.objects.forceArray(userNode.data.favorites).some(favorite => favorite.id === params.contentId && favorite.repository === params.repository)
   } catch (error) {
     log.error('Error on isContentFavorite function: ' + error)
   }
@@ -267,6 +268,7 @@ function isContentFavorite (params) {
  * Check if a content is set as priority
  * @param {Object} params
  * @param {String} params.contentId
+ * @param {String} params.repository
  * @returns {Boolean}
  */
 function isContentPriority (params) {
@@ -279,7 +281,7 @@ function isContentPriority (params) {
 
     if (!userNode) return
 
-    return libs.objects.forceArray(userNode.data.favorites).some(favorite => favorite.id === params.contentId && favorite.priority)
+    return libs.objects.forceArray(userNode.data.favorites).some(favorite => favorite.id === params.contentId && favorite.priority && favorite.repository === params.repository)
   } catch (error) {
     log.error('Error on isContentPriority function: ' + error)
   }
@@ -289,6 +291,7 @@ function isContentPriority (params) {
  * Toggle the priority property from a content. Set true if it's false or undefined, and set false if it's true.
  * @param {Object} params
  * @param {String|String[]} params.contentId
+ * @param {String} params.repositoryId
  * @param {Boolean} params.state
  */
 function toggleContentPriority (params) {
@@ -312,7 +315,7 @@ function toggleContentPriority (params) {
 
         if (typeof params.contentId === 'object') {
           c.data.favorites = currentFavoriteContents.map(item => {
-            if (params.contentId.some(contentId => contentId === item.id)) {
+            if (params.contentId.some(contentId => contentId === item.id && item.repository === params.repositoryId)) {
               item.priority = params.state
               item.updatedAt = new Date().toISOString()
             }
@@ -323,7 +326,7 @@ function toggleContentPriority (params) {
 
         if (typeof params.contentId === 'string') {
           c.data.favorites = currentFavoriteContents.map(item => {
-            if (item.id === params.contentId) {
+            if (item.id === params.contentId && item.repository === params.repositoryId) {
               item.priority = !item.priority
               item.updatedAt = new Date().toISOString()
             }
@@ -344,6 +347,7 @@ function toggleContentPriority (params) {
  * Uncheck the content fron the current logged in user node list
  * @param {Object} params
  * @param {String|String[]} params.contentId
+ * @param {String} params.repositoryId
  */
 function unfavoriteContent (params) {
   if (libs.objects.trySafe(() => !params.contentId || !params.contentId.length)) return
@@ -360,13 +364,13 @@ function unfavoriteContent (params) {
     if (!userNode) return
 
     if (typeof params.contentId === 'string') {
-      if (!isContentFavorite({ contentId: params.contentId })) return
+      if (!isContentFavorite({ contentId: params.contentId, repository: params.repositoryId })) return
     }
 
     return repo.modify({
       key: userNode._id,
       editor: function (c) {
-        c.data.favorites = libs.objects.forceArray(c.data.favorites).filter(favorite => !libs.objects.forceArray(params.contentId).some(idToRemove => favorite.id === idToRemove))
+        c.data.favorites = libs.objects.forceArray(c.data.favorites).filter(favorite => !libs.objects.forceArray(params.contentId).some(idToRemove => favorite.id === idToRemove && favorite.repository === params.repositoryId))
 
         return c
       }

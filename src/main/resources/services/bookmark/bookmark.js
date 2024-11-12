@@ -5,35 +5,37 @@ const libs = {
 
 exports.post = function handler (request) {
   const body = libs.objects.trySafe(() => JSON.parse(request.body))
+  const repositoryId = request.repositoryId
+
   let response
 
   switch (body.action) {
     case 'favorite': {
-      response = libs.bookmarkLib.favoriteContent({ contentId: body.contentId, repositoryId: request.repositoryId })
+      response = libs.bookmarkLib.favoriteContent({ contentId: body.contentId, repositoryId })
       break
     }
 
     case 'unfavorite': {
       if (body.contentIds) {
-        response = libs.bookmarkLib.unfavoriteContent({ contentId: body.contentIds })
+        response = libs.bookmarkLib.unfavoriteContent({ contentId: body.contentIds, repositoryId })
       } else if (body.contentId) {
-        response = libs.bookmarkLib.unfavoriteContent({ contentId: body.contentId })
+        response = libs.bookmarkLib.unfavoriteContent({ contentId: body.contentId, repositoryId })
       }
       break
     }
 
     case 'toggle_priority': {
-      response = libs.bookmarkLib.toggleContentPriority({ contentId: body.contentId })
+      response = libs.bookmarkLib.toggleContentPriority({ contentId: body.contentId, repositoryId })
       break
     }
 
     case 'add_priority': {
-      response = libs.bookmarkLib.toggleContentPriority({ contentId: body.contentIds, state: true })
+      response = libs.bookmarkLib.toggleContentPriority({ contentId: body.contentIds, state: true, repositoryId })
       break
     }
 
     case 'remove_priority': {
-      response = libs.bookmarkLib.toggleContentPriority({ contentId: body.contentIds, state: false })
+      response = libs.bookmarkLib.toggleContentPriority({ contentId: body.contentIds, state: false, repositoryId })
       break
     }
     default: {

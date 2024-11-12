@@ -9,6 +9,7 @@ const libs = {
 
 exports.get = function (req) {
   const contentId = req.params.contentId
+  const repository = req.repositoryId
 
   if (!contentId) {
     return {
@@ -39,12 +40,12 @@ exports.get = function (req) {
   const bookmarkServiceURL = libs.portal.serviceUrl({ service: 'bookmark', type: 'absolute' })
 
   content.icon = libs.bookmarkLib.getContentTypeIconBase64(content.type)
-  const isContentPriority = libs.bookmarkLib.isContentPriority({ contentId })
+  const isContentPriority = libs.bookmarkLib.isContentPriority({ contentId, repository })
 
   const model = {
     hasLicense: true,
     content,
-    isContentFavorite: libs.bookmarkLib.isContentFavorite({ contentId }),
+    isContentFavorite: libs.bookmarkLib.isContentFavorite({ contentId, repository }),
     isContentPriority,
     strings: {
       bookmarkContentText: libs.strings.translate('bookmark.widget.context_panel.bookmark_content'),

@@ -91,4 +91,3 @@ crashlytics-build.properties
 *.css.map
 
 node_modules/
-package-lock.json
